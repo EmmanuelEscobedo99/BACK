@@ -4,7 +4,9 @@ import bcrypt from 'bcryptjs'
 
 import jwt from 'jsonwebtoken'
 
-import { registerSchema } from '../schemas/authSchema.js'
+import { ZodError } from 'zod'
+
+import { registerSchema, loginSchema } from '../schemas/authSchema.js'
 
 export const registerUser = async (req, res) => {
     try {
@@ -70,13 +72,71 @@ export const registerUser = async (req, res) => {
 
             .json({ message: 'Usuario registrado exitosamente' })
 
-        console.log(newUser)
-
         res.json({ newUser: newUser })
 
         res.json({ hashedPass: hashedPassword })
     } catch (error) {
         res.json(error)
+    }
+}
+
+export const loginUser = async (req, res) => {
+    try {
+        // Obtener la clave secreta del entorno
+        const JWT_SECRET = process.env.JWT_SECRET
+
+        // Extraer el email y contrasena del cuerpo de la peticion
+        // ademas validarlo
+        const { email, password } = loginSchema.parse(req.body)
+
+        // Buscar el usuario por email
+        const user = await UserModel.findOne({ email })
+
+        if (!user) {
+            return res.status(400).json({ message: 'Credenciales invalidas' })
+        }
+
+        // Comparar la contrasena
+        const isPasswordValid = await bcrypt.compare(password, user.password)
+
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Credenciales invalidas' })
+        }
+
+        // Generar un token con JWT
+        const token = jwt.sign(
+            { userId: user._id, username: user.username },
+            JWT_SECRET,
+            {
+                expiresIn: '1h',
+            }
+        )
+
+        const userData = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            isAdmin: user.isAdmin,
+        }
+
+        res.cookie('accessToken', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 60 * 60 * 1000,
+        })
+            .status(200)
+            .json(userData)
+    } catch (error) {
+        if (error instanceof ZodError) {
+            return res
+                .status(400)
+                .json(error.issues.map((issue) => ({ message: issue.message })))
+        }
+        res.status(500).json({
+            message: 'Error al iniciar sesion: ',
+            error: error,
+        })
     }
 }
 

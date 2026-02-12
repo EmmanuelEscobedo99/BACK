@@ -1,9 +1,15 @@
 import express from 'express'
-import { registerUser, profile } from '../controllers/authControllers.js'
+import {
+    registerUser,
+    profile,
+    loginUser,
+} from '../controllers/authControllers.js'
 
 const router = express.Router()
 
 router.post('/register', registerUser)
+
+router.post('/login', loginUser)
 
 router.post('/login', (req, res) => {
     console.log('/register Hiciste una peticion POST a /login')
