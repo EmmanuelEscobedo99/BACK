@@ -18,3 +18,6 @@ Content-Type: application/json
   "email": "rolo@gmail.com",
   "password": "rolo123"
 }
+
+### LOGOUT USER
+POST http://localhost:3001/api/auth/logout
