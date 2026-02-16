@@ -21,3 +21,32 @@ Content-Type: application/json
 
 ### LOGOUT USER
 POST http://localhost:3001/api/auth/logout
+
+### PETICIONES DE PRODUCTOS
+GET http://localhost:3001/api/products
+
+### POST CREAR PRODUCTOS
+POST http://localhost:3001/api/products
+Content-Type: application/json
+
+{
+  "name": "Taza de Silent Hill 2 Remake",
+  "description": "Taza edicion especial de Silent Hill 2 Remake, donde aparecen los la enfermera y el personaje principal edicion unica.",
+  "price": 320,
+  "stock": 5,
+  "imageUrl": "https://res.cloudinary.com/dlcmcab8l/image/upload/v1771270128/ChatGPT_Image_16_feb_2026_01_28_39_p.m._pjmpxo.png"
+}
+
+### PUT Actualizar productos
+PUT http://localhost:3001/api/products/699372adebacee109e9c1070
+Content-Type: application/json
+
+{
+  "price": 240
+}
+
+### Obtener un producto por ID
+GET http://localhost:3001/api/products/699372adebacee109e9c1070
+
+### DELETE Eliminar un producto por su ID
+DELETE http://localhost:3001/api/products/69937794635a30699635e8e5

@@ -3,6 +3,7 @@ import { connectDB, disconnectDB } from './config/configdb.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import authRoutes from './routes/authRoutes.js'
+import productRoutes from './routes/productsRoutes.js'
 import cookieParser from 'cookie-parser'
 
 dotenv.config()
@@ -28,6 +29,7 @@ app.use(cookieParser())
 app.use(express.json())
 // Rutas API
 app.use('/api/auth', authRoutes)
+app.use('/api/products', productRoutes)
 
 connectDB()
     .then(() => {
