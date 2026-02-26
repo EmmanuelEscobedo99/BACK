@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import authRoutes from './routes/authRoutes.js'
 import productRoutes from './routes/productsRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
 import cookieParser from 'cookie-parser'
 
 dotenv.config()
@@ -30,6 +31,7 @@ app.use(express.json())
 // Rutas API
 app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
+app.use('/api/cart', cartRoutes)
 
 connectDB()
     .then(() => {

@@ -50,3 +50,25 @@ GET http://localhost:3001/api/products/699372adebacee109e9c1070
 
 ### DELETE Eliminar un producto por su ID
 DELETE http://localhost:3001/api/products/69937794635a30699635e8e5
+
+### ADD TO CART
+POST http://localhost:3001/api/cart/add
+Content-Type: application/json
+
+{
+  "userId": "699e1d28a99e0578374ddba9",
+  "productId": "69937dfce839573ef8470fe8",
+  "quantity": 1
+}
+
+### GET CART
+GET http://localhost:3001/api/cart/get/699e1d28a99e0578374ddba9
+
+### UPDATE CART
+PUT http://localhost:3001/api/cart/update/699e1d28a99e0578374ddba9
+Content-Type: application/json
+
+{
+  "productId": "699372adebacee109e9c1070",
+  "quantity": 3
+}
