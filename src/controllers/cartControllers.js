@@ -1,4 +1,4 @@
-import CartModel from '../models/CartModel.js'
+import CartModel from '../models/cartModel.js'
 import ProductModel from '../models/ProductModel.js' // Tenemos que validar que el producto exista
 
 export const addToCart = async (req, res) => {
